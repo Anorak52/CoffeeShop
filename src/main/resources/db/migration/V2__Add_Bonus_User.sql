@@ -1,0 +1,2 @@
+insert into bonus_entity (bonus, first_name, last_name, phone) values (5, 'John', 'Silva', 89024576375);
+insert into bonus_entity (bonus, first_name, last_name, phone) values (5, 'Steve', 'Marco', 89235719536);
