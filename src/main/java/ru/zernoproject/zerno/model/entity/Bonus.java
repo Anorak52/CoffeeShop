@@ -2,22 +2,19 @@ package ru.zernoproject.zerno.model.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
-public class BonusEntity {
+public class Bonus {
 
     private String firstName;
     private String lastName;
-    private Integer bonus;
+    private int bonuses;
     @Id
     private String phone;
 }

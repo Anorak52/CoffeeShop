@@ -6,7 +6,7 @@ import ru.zernoproject.zerno.model.BonusRepository;
 import ru.zernoproject.zerno.model.dto.BonusRequest;
 import ru.zernoproject.zerno.model.dto.VisitorOrder;
 import ru.zernoproject.zerno.model.dto.VisitorRequest;
-import ru.zernoproject.zerno.model.entity.BonusEntity;
+import ru.zernoproject.zerno.model.entity.Bonus;
 import ru.zernoproject.zerno.service.ZernoCoffee;
 
 import java.util.List;
@@ -23,31 +23,31 @@ public class ZernoCoffeeImpl implements ZernoCoffee {
 
     @Override
     public String makeOrder(VisitorRequest visitorRequest) {
-        BonusEntity visitor = bonusRepository.findByPhone(visitorRequest.getPhone());
+        Bonus visitor = bonusRepository.findByPhone(visitorRequest.getPhone());
         int bonus = 0;
         List<VisitorOrder> order = visitorRequest.getOrder();
         for (VisitorOrder visitorOrder : order) {
             bonus += visitorOrder.getOrderNumber();
         }
-        int bonusSum = visitor.getBonus()+bonus;
+        int bonusSum = visitor.getBonuses()+bonus;
         bonusRepository.updateBonus(visitorRequest.getPhone(), bonusSum);
         return String.format("Спасибо за ваш заказ, вам начисленно %d баллов. Ваше общее количество баллов - %d ", bonus, bonusSum);
     }
 
     @Override
-    public BonusEntity findBonus(BonusRequest bonusRequest) {
+    public Bonus findBonus(BonusRequest bonusRequest) {
         return bonusRepository.findByPhone(bonusRequest.getPhone());
     }
 
     @Override
     public String addBonus(BonusRequest bonusRequest) {
-        BonusEntity findUserAlready = findBonus(bonusRequest);
+        Bonus findUserAlready = findBonus(bonusRequest);
         if (findUserAlready==null) {
-            BonusEntity bonus = new BonusEntity();
+            Bonus bonus = new Bonus();
             bonus.setFirstName(bonusRequest.getFirstName());
             bonus.setLastName(bonusRequest.getLastName());
             bonus.setPhone(bonusRequest.getPhone());
-            bonus.setBonus(0);
+            bonus.setBonuses(0);
             bonusRepository.save(bonus);
             return "Пользователь добавлен в бонусную программу";
         } else {

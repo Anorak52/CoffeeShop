@@ -5,10 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.zernoproject.zerno.model.dto.BonusRequest;
 import ru.zernoproject.zerno.model.dto.VisitorRequest;
-import ru.zernoproject.zerno.model.entity.BonusEntity;
+import ru.zernoproject.zerno.model.entity.Bonus;
 import ru.zernoproject.zerno.service.impl.ZernoCoffeeImpl;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,17 +26,7 @@ public class ZernoController {
     }
 
     @GetMapping("/getBonus")
-    public ResponseEntity<BonusEntity> findBonus(@RequestBody BonusRequest bonusRequest) {
+    public ResponseEntity<Bonus> findBonus(@RequestBody BonusRequest bonusRequest) {
         return ResponseEntity.ok(zernoCoffeeImpl.findBonus(bonusRequest));
     }
-
-//    @DeleteMapping("/orders")
-//    public ResponseEntity<VisitorRequest> deleteOrder(@RequestBody VisitorRequest visitorRequest) {
-//        return ResponseEntity.ok(zernoCoffeeImpl.zernoCoffee(visitorRequest));
-//    }
-//
-//    @GetMapping("/orders")
-//    public ResponseEntity<VisitorRequest> deleteOrder(@RequestBody VisitorRequest visitorRequest) {
-//        return ResponseEntity.ok(zernoCoffeeImpl.zernoCoffee(visitorRequest));
-//    }
 }
