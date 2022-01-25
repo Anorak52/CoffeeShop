@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.zernoproject.zerno.model.dto.BonusRequest;
+import ru.zernoproject.zerno.model.dto.Employee;
 import ru.zernoproject.zerno.model.dto.VisitorRequest;
 import ru.zernoproject.zerno.model.entity.Bonus;
 import ru.zernoproject.zerno.service.impl.ZernoCoffeeImpl;
@@ -28,5 +29,10 @@ public class ZernoController {
     @GetMapping("/getBonus")
     public ResponseEntity<Bonus> findBonus(@RequestBody BonusRequest bonusRequest) {
         return ResponseEntity.ok(zernoCoffeeImpl.findBonus(bonusRequest));
+    }
+
+    @PostMapping("/addEmployee")
+    public ResponseEntity<String> addEmployee(@RequestBody Employee newEmployee) {
+        return ResponseEntity.ok(zernoCoffeeImpl.addEmployee(newEmployee));
     }
 }

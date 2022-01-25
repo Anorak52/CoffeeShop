@@ -5,19 +5,20 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "bonus", schema = "zerno")
+@Table(name = "phone", schema = "zerno")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Bonus {
-
+public class Phone {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    private String number;
+    @OneToOne(mappedBy="phone", cascade = CascadeType.ALL)
+    private Staff staff;
 
-    private String firstName;
-    private String lastName;
-    private int bonuses;
-    private String phone;
+    public Phone(String number) {
+        this.number = number;
+    }
 }

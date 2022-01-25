@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import ru.zernoproject.zerno.model.BonusRepository;
+import ru.zernoproject.zerno.repository.BonusRepository;
 import ru.zernoproject.zerno.model.dto.BonusRequest;
 import ru.zernoproject.zerno.model.dto.VisitorOrder;
 import ru.zernoproject.zerno.model.dto.VisitorRequest;
@@ -29,7 +29,7 @@ class ZernoCoffeeImplTest {
 
     @BeforeEach
     void setUp() {
-        Bonus bonusEntity = new Bonus("John", "Markovich", 10, "89375621853");
+        Bonus bonusEntity = new Bonus(1, "John", "Markovich", 10, "89375621853");
         Bonus savedBonusEntity = bonusRepository.save(bonusEntity);
     }
 

@@ -2,11 +2,15 @@ package ru.zernoproject.zerno.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ru.zernoproject.zerno.model.BonusRepository;
 import ru.zernoproject.zerno.model.dto.BonusRequest;
+import ru.zernoproject.zerno.model.dto.Employee;
 import ru.zernoproject.zerno.model.dto.VisitorOrder;
 import ru.zernoproject.zerno.model.dto.VisitorRequest;
 import ru.zernoproject.zerno.model.entity.Bonus;
+import ru.zernoproject.zerno.model.entity.Phone;
+import ru.zernoproject.zerno.model.entity.Staff;
+import ru.zernoproject.zerno.repository.BonusRepository;
+import ru.zernoproject.zerno.repository.StaffRepository;
 import ru.zernoproject.zerno.service.ZernoCoffee;
 
 import java.util.List;
@@ -15,10 +19,12 @@ import java.util.List;
 public class ZernoCoffeeImpl implements ZernoCoffee {
 
     private final BonusRepository bonusRepository;
+    private final StaffRepository staffRepository;
 
     @Autowired
-    private ZernoCoffeeImpl(BonusRepository bonusRepository){
+    private ZernoCoffeeImpl(BonusRepository bonusRepository, StaffRepository staffRepository){
         this.bonusRepository = bonusRepository;
+        this.staffRepository = staffRepository;
     }
 
     @Override
@@ -53,6 +59,15 @@ public class ZernoCoffeeImpl implements ZernoCoffee {
         } else {
             return "Пользователь уже есть в бонусной программе";
         }
+    }
+
+    @Override
+    public String addEmployee(Employee employee) {
+        Staff newEmployee = new Staff(employee.getFirstName(), employee.getLastName(), employee.getAddress(),
+                employee.getPosition(), employee.getSalary());
+        newEmployee.setPhone(new Phone(employee.getPhone()));
+        staffRepository.save(newEmployee);
+        return "Новый сотрудник добавлен";
     }
 
 }
