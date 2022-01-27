@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import ru.zernoproject.zerno.model.entity.Phone;
 import ru.zernoproject.zerno.repository.BonusRepository;
 import ru.zernoproject.zerno.model.dto.BonusRequest;
 import ru.zernoproject.zerno.model.dto.VisitorOrder;
@@ -29,17 +30,16 @@ class ZernoCoffeeImplTest {
 
     @BeforeEach
     void setUp() {
-        Bonus bonusEntity = new Bonus(1, "John", "Markovich", 10, "89375621853");
-        Bonus savedBonusEntity = bonusRepository.save(bonusEntity);
+        Phone phone = new Phone(1, "89375621853");
+        Bonus bonusEntity = new Bonus(1, "John", "Markovich", 10, phone);
+        bonusRepository.save(bonusEntity);
     }
 
     @Test
     void zernoCoffeeMakeOrderTest() {
         List<VisitorOrder> visitorOrder = List.of(new VisitorOrder("Flet", 3));
-        VisitorRequest visitorRequest = new VisitorRequest("John", "Markovich", "89375621853", visitorOrder, true);
+        VisitorRequest visitorRequest = new VisitorRequest("89375621853", visitorOrder, true);
         String response = zernoCoffeeImpl.makeOrder(visitorRequest);
-        Assert.assertEquals("John", visitorRequest.getFirstName());
-        Assert.assertEquals("Markovich", visitorRequest.getLastName());
         Assert.assertTrue(visitorRequest.isDiscount());
         Assert.assertEquals("Flet", visitorOrder.get(0).getOrderName());
         Assert.assertEquals("Спасибо за ваш заказ, вам начисленно 3 баллов. Ваше общее количество баллов - 13 ", response);
@@ -48,22 +48,22 @@ class ZernoCoffeeImplTest {
     @Test
     void findBonusTest() {
         BonusRequest bonusRequest = new BonusRequest("Test", "Test", "89375621853");
-        Bonus bonus = zernoCoffeeImpl.findBonus(bonusRequest);
-        Assert.assertEquals(bonus.getPhone(), bonusRequest.getPhone());
+        Bonus bonus = zernoCoffeeImpl.findInBonusSystem(bonusRequest);
+        Assert.assertEquals(bonus.getPhoneId().getNumber(), bonusRequest.getPhone());
         Assert.assertEquals(10, bonus.getBonuses());
     }
 
     @Test
     void addBonusTest() {
         BonusRequest bonusRequest = new BonusRequest("Test", "Test", "1");
-        String returnString = zernoCoffeeImpl.addBonus(bonusRequest);
+        String returnString = zernoCoffeeImpl.addNewClientInBonusSystem(bonusRequest);
         Assert.assertEquals("Пользователь добавлен в бонусную программу", returnString);
     }
 
     @Test
     void addBonusAlreadyInUseTest() {
         BonusRequest bonusRequest = new BonusRequest("Test", "Test", "89375621853");
-        String returnString = zernoCoffeeImpl.addBonus(bonusRequest);
+        String returnString = zernoCoffeeImpl.addNewClientInBonusSystem(bonusRequest);
         Assert.assertEquals("Пользователь уже есть в бонусной программе", returnString);
     }
 

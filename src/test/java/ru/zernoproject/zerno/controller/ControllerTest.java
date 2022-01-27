@@ -1,7 +1,6 @@
 package ru.zernoproject.zerno.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +36,7 @@ class TestZernoController {
     @BeforeEach
     public void setUp() {
         List<VisitorOrder> visitorOrder = List.of(new VisitorOrder("Flet", 1));
-        VisitorRequest visitorRequest = new VisitorRequest("John", "Markovich","1", visitorOrder, true);
+        VisitorRequest visitorRequest = new VisitorRequest("1", visitorOrder, true);
         Mockito.when(zernoCoffeeImpl.makeOrder(visitorRequest)).thenReturn("Спасибо за ваш заказ, вам начисленно 3 баллов");
     }
 

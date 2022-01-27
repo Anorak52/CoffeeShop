@@ -1,6 +1,10 @@
 package ru.zernoproject.zerno.model.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -14,10 +18,19 @@ public class Bonus {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
 
     private String firstName;
     private String lastName;
     private int bonuses;
-    private String phone;
+
+    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn (name="phone_id", referencedColumnName = "id")
+    private Phone phoneId;
+
+    @JsonIgnore
+    public Phone getPhoneId() {
+        return phoneId;
+    }
 }

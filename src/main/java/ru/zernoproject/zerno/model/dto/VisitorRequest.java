@@ -12,8 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class VisitorRequest {
-    private String firstName;
-    private String lastName;
     private String phone;
     private List<VisitorOrder> order;
     private boolean discount;

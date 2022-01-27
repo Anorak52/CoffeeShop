@@ -23,12 +23,12 @@ public class ZernoController {
 
     @PostMapping("/addBonus")
     public ResponseEntity<String> addBonus(@RequestBody BonusRequest bonusRequest) {
-        return ResponseEntity.ok(zernoCoffeeImpl.addBonus(bonusRequest));
+        return ResponseEntity.ok(zernoCoffeeImpl.addNewClientInBonusSystem(bonusRequest));
     }
 
     @GetMapping("/getBonus")
     public ResponseEntity<Bonus> findBonus(@RequestBody BonusRequest bonusRequest) {
-        return ResponseEntity.ok(zernoCoffeeImpl.findBonus(bonusRequest));
+        return ResponseEntity.ok(zernoCoffeeImpl.findInBonusSystem(bonusRequest));
     }
 
     @PostMapping("/addEmployee")

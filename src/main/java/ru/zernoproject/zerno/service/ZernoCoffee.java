@@ -8,9 +8,9 @@ public interface ZernoCoffee {
 
     String makeOrder(VisitorRequest visitorRequest);
 
-    Object findBonus(BonusRequest bonusRequest);
+    Object findInBonusSystem(BonusRequest bonusRequest);
 
-    String addBonus(BonusRequest bonusRequest);
+    String addNewClientInBonusSystem(BonusRequest bonusRequest);
 
     String addEmployee(Employee newEmployee);
 }

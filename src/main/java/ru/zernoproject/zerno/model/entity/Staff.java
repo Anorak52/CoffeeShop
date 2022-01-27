@@ -1,6 +1,10 @@
 package ru.zernoproject.zerno.model.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
@@ -13,6 +17,7 @@ import javax.persistence.*;
 public class Staff {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Integer id;
 
     private String address;
@@ -21,9 +26,14 @@ public class Staff {
     private Double salary;
     private String position;
 
-    @OneToOne(cascade=CascadeType.ALL)
-    @JoinColumn (name="phone_id")
+    @OneToOne(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    @JoinColumn (name="phone_id", referencedColumnName = "id")
     private Phone phone;
+
+    @JsonIgnore
+    public Phone getPhone() {
+        return phone;
+    }
 
     public Staff(String firstName, String lastName, String address, String position, Double salary) {
         this.firstName = firstName;
