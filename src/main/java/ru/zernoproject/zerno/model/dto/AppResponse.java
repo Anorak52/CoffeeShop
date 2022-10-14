@@ -5,11 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class VisitorOrder {
-    private String orderName;
-    private Integer orderNumber;
+public class AppResponse {
+    private String msg;
 }

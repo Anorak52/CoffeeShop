@@ -5,12 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class BonusRequest {
-    private String firstName;
-    private String lastName;
-    private String phone;
+public class AddBonusRequest {
+    private String fullName;
+    private Long msisdn;
 }
