@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ru.zernoproject</groupId>
 	<artifactId>zerno</artifactId>
-	<version>0.0.2</version>
+	<version>0.0.3</version>
 	<name>Zerno Coffee</name>
 	<description>Demo project for Coffee Shop</description>
 	<properties>
