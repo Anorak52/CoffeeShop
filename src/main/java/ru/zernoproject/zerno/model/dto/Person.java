@@ -9,7 +9,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class AddBonusRequest {
+public class Person {
     private String fullName;
     private Long msisdn;
 }

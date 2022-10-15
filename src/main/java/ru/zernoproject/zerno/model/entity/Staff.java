@@ -13,20 +13,24 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-public class Users {
+public class Staff {
     @Id
-    @Column(name = "msisdn")
-    private Long msisdn;
     @Column(name = "full_name")
     private String fullName;
-    @Column(name = "bonuses")
-    private int bonuses;
+    @Column(name = "msisdn")
+    private Long msisdn;
+    private String position;
 
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "staff")
     List<CustomerOrder> orders;
 
-    public Users(String fullName, Long msisdn) {
+    public Staff(String fullName, Long msisdn, String position) {
         this.fullName = fullName;
         this.msisdn = msisdn;
+        this.position = position;
+    }
+
+    public Staff(String fullName) {
+        this.fullName = fullName;
     }
 }

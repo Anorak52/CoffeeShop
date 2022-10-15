@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @AllArgsConstructor
@@ -16,7 +17,10 @@ public class CustomerOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    private String stuffName;
+
+    @ManyToOne
+    @JoinColumn(name = "stuff_name")
+    Staff staff;
 
     @ManyToOne
     @JoinColumn(name = "user_phone")
@@ -26,9 +30,19 @@ public class CustomerOrder {
     @JoinColumn(name = "menu_position")
     Menu menu;
 
-    public CustomerOrder(String stuffName, Users users, Menu menu) {
-        this.stuffName = stuffName;
+    @Column(name = "order_creation_date")
+    private LocalDateTime orderCreationDate;
+
+    public CustomerOrder(Users users, Menu menu, Staff staff) {
         this.users = users;
         this.menu = menu;
+        this.staff = staff;
+    }
+
+    public CustomerOrder(Staff staff, Users users, Menu menu, LocalDateTime orderCreationDate) {
+        this.staff = staff;
+        this.users = users;
+        this.menu = menu;
+        this.orderCreationDate = orderCreationDate;
     }
 }
