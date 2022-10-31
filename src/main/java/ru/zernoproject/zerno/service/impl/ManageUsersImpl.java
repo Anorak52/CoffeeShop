@@ -12,7 +12,7 @@ import ru.zernoproject.zerno.repository.StaffRepository;
 import ru.zernoproject.zerno.repository.UsersRepository;
 import ru.zernoproject.zerno.service.ManageUsers;
 
-import static ru.zernoproject.zerno.enums.Constants.CREATED;
+import static ru.zernoproject.zerno.utils.Constants.*;
 
 @RequiredArgsConstructor
 @Service
@@ -23,12 +23,20 @@ public class ManageUsersImpl implements ManageUsers {
     private final StaffRepository staffRepository;
 
     public AppResponse addUser(AddUserRequest request) {
-        usersRepository.save(new Users(request.getFullName(), request.getMsisdn()));
-        return new AppResponse(CREATED);
+        Users existing = usersRepository.findUsersByMsisdn(request.getMsisdn());
+        if (existing == null) {
+            usersRepository.save(new Users(request.getFullName(), request.getMsisdn()));
+            return new AppResponse(CREATED);
+        }
+        return new AppResponse(USER_ALREADY_EXISTS);
     }
 
     public AppResponse addStaff(AddStaffRequest request) {
-        staffRepository.save(new Staff(request.getFullName(), request.getMsisdn(), request.getPosition()));
-        return new AppResponse(CREATED);
+        Staff existingStaff = staffRepository.findStaffByFullName(request.getFullName());
+        if (existingStaff == null ) {
+            staffRepository.save(new Staff(request.getFullName(), request.getMsisdn(), request.getPosition()));
+            return new AppResponse(CREATED);
+        }
+        return new AppResponse(STAFF_ALREADY_EXISTS);
     }
 }

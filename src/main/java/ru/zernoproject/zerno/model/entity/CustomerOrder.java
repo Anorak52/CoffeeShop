@@ -30,19 +30,17 @@ public class CustomerOrder {
     @JoinColumn(name = "menu_position")
     Menu menu;
 
+    @Column(name = "amount")
+    Integer amount;
+
     @Column(name = "order_creation_date")
     private LocalDateTime orderCreationDate;
 
-    public CustomerOrder(Users users, Menu menu, Staff staff) {
-        this.users = users;
-        this.menu = menu;
-        this.staff = staff;
-    }
-
-    public CustomerOrder(Staff staff, Users users, Menu menu, LocalDateTime orderCreationDate) {
+    public CustomerOrder(Staff staff, Users users, Menu menu, int amount,LocalDateTime orderCreationDate) {
         this.staff = staff;
         this.users = users;
         this.menu = menu;
         this.orderCreationDate = orderCreationDate;
+        this.amount = amount;
     }
 }

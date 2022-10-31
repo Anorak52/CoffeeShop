@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.zernoproject.zerno.model.dto.AppResponse;
 import ru.zernoproject.zerno.model.dto.requests.AddMenuPositionRequest;
+import ru.zernoproject.zerno.model.dto.requests.AddOrderItemsListRequest;
 import ru.zernoproject.zerno.model.dto.requests.AddOrderRequest;
 import ru.zernoproject.zerno.model.entity.CustomerOrder;
 import ru.zernoproject.zerno.model.entity.Menu;
@@ -17,11 +18,11 @@ import ru.zernoproject.zerno.repository.UsersRepository;
 import ru.zernoproject.zerno.service.OrderService;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
-import static ru.zernoproject.zerno.enums.Constants.CREATED;
-import static ru.zernoproject.zerno.enums.Constants.ORDERCREATED;
+import static ru.zernoproject.zerno.utils.Constants.*;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -41,17 +42,44 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public AppResponse addOrder(AddOrderRequest request) {
-        List<CustomerOrder> orderList = new ArrayList<>();
         Staff staff = staffRepository.findStaffByFullName(request.getStaffName());
+        if (staff == null) {
+            return new AppResponse(EMPTY_STAFF_FROM_DB);
+        }
         Users user = usersRepository.findUsersByMsisdn(request.getUserMsisdn());
-        log.info("Get Menu pos {}", request.getMenuPostions().size());
-        request.getMenuPostions().forEach(x->{
-            Menu menu = menuRepository.findMenuByTitle(x);
-            orderList.add(new CustomerOrder(staff, user, menu, LocalDateTime.now()));
-        });
+        if (user == null) {
+            return new AppResponse(EMPTY_USER_FROM_DB);
+        }
+
+        List<String> requestMenuPositions = request.getOrderItemsList().stream()
+                .map(AddOrderItemsListRequest::getPosition).collect(Collectors.toList());
+        List<Menu> findExistingMenuPositions = menuRepository.findAllByTitles(requestMenuPositions);
+
+        if (findExistingMenuPositions.size() < request.getOrderItemsList().size()) {
+            List<String> wrongPositionsFromRequest = requestMenuPositions.stream()
+                    .filter(requestOrderPosition ->
+                            !findExistingMenuPositions.stream().map(Menu::getTitle).collect(Collectors.toList())
+                                    .contains(requestOrderPosition))
+                    .collect(Collectors.toList());
+            return new AppResponse(WORNG_POSITION_IN_ORDER_LIST + wrongPositionsFromRequest);
+        }
+
+        List<CustomerOrder> orderList = findExistingMenuPositions.stream()
+                .map(menuPosition -> new CustomerOrder(staff, user, menuPosition,
+                request.getOrderItemsList().stream()
+                        .filter(userOrder -> userOrder.getPosition() != null && !userOrder.getPosition().isEmpty())
+                        .filter(userOrder -> userOrder.getPosition().contains(menuPosition.getTitle()))
+                        .findFirst().orElseThrow(NoSuchElementException::new)
+                        .getAmount(),
+                LocalDateTime.now())).collect(Collectors.toList());
+
+        if (orderList.isEmpty()) {
+            return new AppResponse(EMPTY_ORDER_LIST);
+        }
+
+        usersRepository.updateBonusAmountByMsisdn(request.getUserMsisdn(), user.getBonuses() + orderList.size());
         orderRepository.saveAll(orderList);
-        int responseBonuses = user.getBonuses();
-        return new AppResponse(ORDERCREATED + ", number of bonuses is " + responseBonuses);
+        return new AppResponse(ORDERCREATED);
     }
 
 }

@@ -13,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@Table(name = "Staff")
 public class Staff {
     @Id
     @Column(name = "full_name")
