@@ -30,4 +30,5 @@ mvnw
 mvnw.cmd
 zerno.iml
 /target
-.vscode/settings.json
+.vscode/
+target
