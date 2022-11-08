@@ -1,8 +1,20 @@
 package ru.zernoproject.zerno.service.impl;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import static ru.zernoproject.zerno.utils.Constants.CREATED;
+import static ru.zernoproject.zerno.utils.Constants.EMPTY_ORDER_LIST;
+import static ru.zernoproject.zerno.utils.Constants.EMPTY_STAFF_FROM_DB;
+import static ru.zernoproject.zerno.utils.Constants.EMPTY_USER_FROM_DB;
+import static ru.zernoproject.zerno.utils.Constants.ORDERCREATED;
+import static ru.zernoproject.zerno.utils.Constants.WORNG_POSITION_IN_ORDER_LIST;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
+
+import lombok.RequiredArgsConstructor;
 import ru.zernoproject.zerno.model.dto.AppResponse;
 import ru.zernoproject.zerno.model.dto.requests.AddMenuPositionRequest;
 import ru.zernoproject.zerno.model.dto.requests.AddOrderItemsListRequest;
@@ -17,15 +29,7 @@ import ru.zernoproject.zerno.repository.StaffRepository;
 import ru.zernoproject.zerno.repository.UsersRepository;
 import ru.zernoproject.zerno.service.OrderService;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.stream.Collectors;
-
-import static ru.zernoproject.zerno.utils.Constants.*;
-
 @RequiredArgsConstructor
-@Slf4j
 @Service
 public class OrderServiceImpl implements OrderService {
 
