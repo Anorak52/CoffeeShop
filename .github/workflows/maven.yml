@@ -29,6 +29,19 @@ jobs:
         cache: maven
     - name: Build with Maven
       run: mvn clean install
+    - name: Login to 
+      run: mvn clean install
+    - uses: actions/checkout@v2
+      name: Check out code
+    - name: Build & push Docker image
+      uses: mr-smithers-excellent/docker-build-push@v5
+      with:
+        image: anorak52/zerno-app
+        tags: latest
+        registry: registry-url.io
+        dockerfile: Dockerfile.ci
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
