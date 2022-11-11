@@ -44,7 +44,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Build and push
         uses: docker/build-push-action@v3
-        context: .
         with:
+          context: .
           push: true
           tags: anorak52/zerno-app:latest
