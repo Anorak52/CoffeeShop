@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: zerno-app
+spec:
+  selector:
+    app: zerno-app
+  ports:
+  - protocol: TCP
+    port: 8081
+    nodePort: 30000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zerno-app
+spec:
+  selector:
+      matchLabels:
+        app: zerno-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: zerno-app
+    spec:
+      containers:
+        - name: zerno-app
+          image: anorak52/zerno-app:0.0.3
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8081

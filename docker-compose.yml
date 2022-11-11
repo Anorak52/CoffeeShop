@@ -1,0 +1,22 @@
+version: '2'
+
+services:
+  app:
+    image: 'zerno:latest'
+    build:
+      context: .
+    container_name: shop
+    ports:
+      - "8081:8081"
+    depends_on:
+      - db
+
+  db:
+    image: 'postgres:latest'
+    container_name: db
+    ports:
+      - "8888:5432"
+    environment:
+      - POSTGRES_USER=zerno-app
+      - POSTGRES_PASSWORD=zerno-app
+      - POSTGRES_DB=postgres
