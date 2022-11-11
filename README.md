@@ -1,2 +1,2 @@
 # CoffeeShop
-Service for coffee shop 'Zerno'
+Service for coffee shop 'Zerno'.
