@@ -25,9 +25,10 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4
         with:
+          images:
+            anorak52@zerno-app
           tags:
             event=push tag
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
       - name: Set up Docker Buildx
